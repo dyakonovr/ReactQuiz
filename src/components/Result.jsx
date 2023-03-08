@@ -1,34 +1,29 @@
-import React, { Component } from 'react';
+import { useSelector } from 'react-redux';
+import { store } from '../store/store';
+import { resetQuiz } from '../store/reducers/ActionCreators';
 
-class Result extends Component {
-  constructor(props) {
-    super(props);
+const Result = () => {
+  const { rightAnswers, questionsQuantity, reactions } = useSelector(state => state.quizReducer);
+  let percent = Math.round(rightAnswers / questionsQuantity);
 
-    this.state = {
-      reactions: ['Надо подучить!', 'Неплохо!', 'Отличнооо!'],
-    }
-  }
-
-  render() {
-    let reaction = '';
-    let percent = Math.round(this.props.rightAnswers / this.props.quantity);
-
+  // Функции
+  function createReaction(percent) {
     if (percent <= 0.3) {
-      reaction = this.state.reactions[0];
+      return reactions[0];
     } else if (0.3 < percent < 0.6) {
-      reaction = this.state.reactions[1];
+      return reactions[1];
     } else if (percent >= 0.6) {
-      reaction = this.state.reactions[2];
+      return reactions[2];
     }
-
-
-    return (
-      <div className='window window--center'>
-        <strong className='window__title'>Вы ответили правильно на {this.props.rightAnswers} вопроса из {this.props.quantity}. {reaction}</strong>
-        <button type='button' className='window__btn' onClick={this.props.resetQuiz}>Попробуем ещё раз?</button>
-      </div>
-    );
   }
-};
+  // Функции END
+
+  return (
+    <div className='window window--center'>
+      <strong className='window__title'>Вы ответили правильно на {rightAnswers} вопроса из {questionsQuantity}. {createReaction(percent)}</strong>
+      <button type='button' className='window__btn' onClick={() => { store.dispatch(resetQuiz()) }}>Попробуем ещё раз?</button>
+    </div>
+  );
+}
 
 export default Result;
