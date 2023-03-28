@@ -1,10 +1,17 @@
 import { useSelector } from 'react-redux';
 import { store } from '../store/store';
 import { resetQuiz } from '../store/reducers/ActionCreators';
+import { useEffect } from 'react';
+import { setNewUserscore } from './../store/reducers/ActionCreators';
 
 const Result = () => {
-  const { rightAnswers, questionsQuantity, reactions } = useSelector(state => state.quizReducer);
+  const { rightAnswers, questionsQuantityByExplanation, currentDifficulty, reactions, userID, userscores, userToken } = useSelector(state => state.quizReducer);
+  const questionsQuantity = questionsQuantityByExplanation[currentDifficulty];
   let percent = Math.round(rightAnswers / questionsQuantity);
+
+  useEffect(() => {
+    store.dispatch(setNewUserscore(userID, rightAnswers, currentDifficulty, rightAnswers > userscores[currentDifficulty], userToken));
+  })
 
   // Функции
   function createReaction(percent) {

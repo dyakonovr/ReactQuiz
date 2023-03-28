@@ -41,13 +41,19 @@ body {
   display: flex;
   flex-direction: column;
   padding: 100px 50px;
-  border-radius: 5px;
+  border-radius: 16px;
   background-color: var(--color-white);
-  width: 600px;
 
   &__counter {
     margin: 0;
     color: rgb(149, 149, 149);
+  }
+
+  &__small {
+    margin: 0 5px 0 auto;
+    font-size: 14px;
+    color: rgb(149, 149, 149);
+    transition: color 0.15s ease-in-out;
   }
 
   &__title {
@@ -62,26 +68,34 @@ body {
   }
 
   &__answer {
+    display: flex;
+    align-items: center;
     padding: 3px;
-    border: 2px solid var(--color-main);
+    border: 2px solid var(--color-black);
     border-radius: 5px;
     font-size: 25px;
     cursor: pointer;
-    transition: background-color 0.15s ease-in-out, color 0.15s ease-in-out;
+    transition: background-color 0.15s ease-in-out, color 0.15s ease-in-out, border-color 0.15s ease-in-out;
 
     &:not(:last-child) {
       margin: 0 0 10px;
     }
 
     &:hover {
+      border-color: var(--color-main);
       background-color: var(--color-main);
       color: var(--color-white);
+
+      .window__small {
+        color: #fff;
+      }
     }
   }
 
   &--center {
     align-items: center;
     justify-content: center;
+    text-align: center;
   }
 
   &__btn {
@@ -191,4 +205,17 @@ input:checked+.slider:before {
 
 .slider.round:before {
   border-radius: 50%;
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  border: 0;
+  padding: 0;
+  white-space: nowrap;
+  clip-path: inset(100%);
+  clip: rect(0 0 0 0);
+  overflow: hidden;
 }
