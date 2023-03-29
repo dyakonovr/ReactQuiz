@@ -31,6 +31,10 @@ export const setUsername = (username) => async () => {
   store.dispatch(quizSlice.actions.setUsername(username));
 }
 
+export const setGameType = (type) => async () => {
+  store.dispatch(quizSlice.actions.setGameType(type));
+}
+
 export const setUserData = (username) => async () => {
   const responseWithID = await axios.get(`/api/userdata/${username}`);
   const id = responseWithID.data.id;

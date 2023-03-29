@@ -1,12 +1,14 @@
 import { useSelector } from 'react-redux';
 import { store } from '../store/store';
-import { resetQuiz } from '../store/reducers/ActionCreators';
+import { resetQuiz, setGameType } from '../store/reducers/ActionCreators';
 import { useEffect } from 'react';
 import { setNewUserscore } from './../store/reducers/ActionCreators';
 
 const Result = () => {
-  const { rightAnswers, questionsQuantityByExplanation, currentDifficulty, reactions, userID, userscores, userToken } = useSelector(state => state.quizReducer);
-  const questionsQuantity = questionsQuantityByExplanation[currentDifficulty];
+  const { rightAnswers, questionsQuantityByExplanation, currentDifficulty, reactions,
+    userID, userscores, userToken, gameType } = useSelector(state => state.quizReducer);
+  
+  const questionsQuantity = gameType === "test" ? questionsQuantityByExplanation.test[currentDifficulty] : questionsQuantityByExplanation.quiz;
   let percent = Math.round(rightAnswers / questionsQuantity);
 
   useEffect(() => {
@@ -28,7 +30,14 @@ const Result = () => {
   return (
     <div className='window window--center'>
       <strong className='window__title'>Вы ответили правильно на {rightAnswers} вопроса из {questionsQuantity}. {createReaction(percent)}</strong>
-      <button type='button' className='window__btn' onClick={() => { store.dispatch(resetQuiz()) }}>Попробуем ещё раз?</button>
+      <div className='window__btns-row'>
+        <button type='button' className='window__answer-btn window__answer-btn--default'
+          onClick={() => { store.dispatch(resetQuiz()) }}>Попробуем ещё раз?</button>
+        <button type='button' className='window__answer-btn window__answer-btn--default' onClick={() => {
+          store.dispatch(setGameType(null));
+          store.dispatch(resetQuiz());
+        }}>Вернуться в главное меню</button>
+      </div>
     </div>
   );
 }

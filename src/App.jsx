@@ -1,15 +1,20 @@
 import './index.scss';
-import Quiz from './components/Quiz';
+import Game from './components/Game';
 import Result from './components/Result';
 import { useSelector } from 'react-redux';
+import Type from './components/Type';
 
 const App = () => {
-  const { quizIsDone } = useSelector(state => state.quizReducer);
+  const { quizIsDone, gameType } = useSelector(state => state.quizReducer);
 
   return (
     <div className="App">
-      {!quizIsDone && <Quiz />}
-      {quizIsDone && <Result />}
+      {gameType === null
+        ? // Если тип игры не выбран
+        <Type />
+        : // Иначе
+        !quizIsDone ? <Game /> : <Result />
+      }
     </div>
   );
 }

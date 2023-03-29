@@ -1,83 +1,54 @@
 import { useSelector } from 'react-redux';
+
+import { nextQuestion } from '../store/reducers/ActionCreators';
 import { store } from '../store/store';
-import { nextQuestion, setDifficulty, setExplanationIsShowed, setUserData, setUsername } from './../store/reducers/ActionCreators';
-import Explanation from './Explanation';
 import Question from './Question';
-import Switch from './UI/Switch';
-import { useEffect } from 'react';
 
-const Quiz = () => {
-  const { questions, counter, currentDifficulty, questionsQuantityByExplanation, explanationIsNeeded, explanationIsShowed } = useSelector(state => state.quizReducer);
-
-  useEffect(() => {
-    // Получаю никнейм пользователя
-    const username = document.querySelector("#username").innerHTML;
-    store.dispatch(setUsername(username));
-
-    // Получаю ID пользователя, прошлые результаты и токен
-    store.dispatch(setUserData(username));
-  }, []);
+function Quiz() {
+  const { questions, counter } = useSelector(store => store.quizReducer);
 
   // Функции
   function answerClickHandle(isCorrect) {
-    console.log(explanationIsNeeded, isCorrect);
-    if (!explanationIsNeeded) store.dispatch(nextQuestion(isCorrect));
-    else {
-      if (!explanationIsShowed) store.dispatch(setExplanationIsShowed(isCorrect));
-    }
+    store.dispatch(nextQuestion(isCorrect));
   }
 
   function createAnswers(answersObj, answersKeys) {
     return answersKeys.map((item, index) => {
-      return <li className="window__answer" key={index} onClick={() => answerClickHandle(answersObj[item])} data-correct={answersObj[item]}>{item}</li>;
+      return <li className="window__answer window__answer--grid" key={index}
+        onClick={() => answerClickHandle(answersObj[item])}
+        data-correct={answersObj[item]}>{item}</li>;
     });
   }
 
   function shuffleList(payload) {
     return payload.sort(() => Math.round(Math.random() * 100) - 50);
   }
-
-  function handleDifficultyClick(value) {
-    store.dispatch(setDifficulty(value));
-  }
   // Функции END
 
+  // Формирование вопросов и ответов
+  const questionsList = questions.quiz;
+  const questionsQuantity = Object.keys(questionsList).length;
+  const questionsKeys = Object.keys(questionsList);
 
-  if (currentDifficulty) {
-    const currentQuestionsList = questions[currentDifficulty];
-    const questionsKeys = Object.keys(currentQuestionsList);
-    const currentQuestion = questionsKeys[counter];
-    const answersObj = currentQuestionsList[currentQuestion].answers;
-    const allAnswers = Object.keys(answersObj);
-    const answersKeys = shuffleList(allAnswers);
-    const questionsQuantity = questionsQuantityByExplanation[currentDifficulty];
+  const currentQuestion = questionsKeys[counter];
+  const questionObj = questionsList[currentQuestion];
+  const questionType = questionObj.type;
 
-    if (!explanationIsNeeded) { // Если подсказки не включены
-      return (<Question answers={createAnswers(answersObj, answersKeys)} questionsQuantity={questionsQuantity} title={questionsKeys[counter]} counter={counter} />);
-    } else {
-      if (!explanationIsShowed) return (<Question answers={createAnswers(answersObj, answersKeys)} questionsQuantity={questionsQuantity} title={questionsKeys[counter]} counter={counter} />)
-      else {
-        const rightAnswer = Object.keys(answersObj).find(key => answersObj[key] === 1);
-        const currentExplanation = currentQuestionsList[currentQuestion].explanation;
-        return <Explanation currentQuestion={currentQuestion} rightAnswer={rightAnswer} currentExplanation={currentExplanation} />;
-      }
-    }
+  let answersObj, allAnswers, answersKeys, rightAnswer;
+
+  if (questionType !== "guess") {
+    answersObj = questionObj.answers;
+    allAnswers = Object.keys(answersObj);
+    answersKeys = questionType === "default" ? shuffleList(allAnswers) : allAnswers;
+
+    return (<Question answers={createAnswers(answersObj, answersKeys)} isQuizQuestion={true} questionsQuantity={questionsQuantity}
+      title={questionsKeys[counter]} counter={counter} />);
+  } else {
+    rightAnswer = questionObj.rightAnswer;
+
+    return (<Question isGuessQuestion={true} isQuizQuestion={true} questionsQuantity={questionsQuantity}
+      title={questionsKeys[counter]} counter={counter} />);
   }
-
-  else {
-    return (
-      <div className='window'>
-        <strong className='window__title'>Выберите сложность</strong>
-        <ul className="window__list" onClick={(e) => handleDifficultyClick(e.target.dataset.value)}>
-          <li className="window__answer" data-value="easy">Легкая <span className='window__small'>{questionsQuantityByExplanation.easy} вопросов</span></li>
-          <li className="window__answer" data-value="medium">Средняя <span className='window__small'>{questionsQuantityByExplanation.medium} вопросов</span></li>
-          <li className="window__answer" data-value="hard">Сложная <span className='window__small'>{questionsQuantityByExplanation.hard} вопросов</span></li>
-        </ul>
-        <Switch />
-      </div>
-    );
-
-  }
-}
+};
 
 export default Quiz;
