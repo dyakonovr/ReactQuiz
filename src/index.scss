@@ -40,7 +40,7 @@ body {
 .window {
   display: flex;
   flex-direction: column;
-  padding: 100px 50px;
+  padding: 50px;
   border-radius: 16px;
   background-color: var(--color-white);
 
@@ -81,6 +81,7 @@ body {
     border-radius: 5px;
     font-size: 25px;
     cursor: pointer;
+    user-select: none;
     transition: background-color 0.15s ease-in-out, color 0.15s ease-in-out, border-color 0.15s ease-in-out;
 
     &:not(:last-child) {
@@ -154,10 +155,13 @@ body {
     text-align: center;
   }
 
+  &__text {
+    margin: 0 0 30px;
+  }
+
   &__btn {
     border: 2px solid var(--color-main);
     border-radius: 5px;
-    margin: 30px 0 0;
     width: 200px;
     height: 50px;
     background-color: var(--color-main);
@@ -173,6 +177,15 @@ body {
 
     &--fullwidth {
       width: fit-content;
+    }
+
+    &--in-input {
+      position: absolute;
+      right: 0;
+      top: 0;
+      border-top-left-radius: 0;
+      border-bottom-left-radius: 0;
+      height: 51.2px;
     }
   }
 
@@ -196,7 +209,8 @@ body {
   }
 
   &__btns-row {
-    margin: 40px 0 0;
+    position: relative;
+    margin: 30px 0 0;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -268,20 +282,26 @@ body {
     justify-content: center;
   }
 
+  &__img-wrapper {
+    width: 500px;
+    height: 250px;
+  }
+
   &__img {
+    margin: 20px 0 0;
     display: block;
-    width: 300px;
-    height: 100%;
+    width: 500px;
+    height: 250px;
   }
 
   &__input {
+    outline: none;
     border: 2px solid var(--color-main);
     border-radius: 5px;
-    padding: 5px;
-    margin: 20px 0 0;
-    width: 200px;
+    padding: 6px 205px 5px 5px;
+    width: 100%;
     height: 37px;
-    margin: 0 20px 0 0;
+    font-size: 17px;
   }
 }
 

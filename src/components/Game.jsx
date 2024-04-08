@@ -6,6 +6,7 @@ import Test from './Test';
 function Game() {
   const { gameType } = useSelector(store => store.quizReducer);
 
+  console.log('current game type:', gameType);
   return (
     <>
       {gameType === "quiz" && <Quiz />}

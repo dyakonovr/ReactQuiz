@@ -17,11 +17,7 @@ function Question({ answers, title, counter, questionsQuantity, isQuizQuestion, 
           </ul>
           :
           <div className='window__wrapper'>
-            <img className='window__img' src="https://newisty.com/public/assets/static/images/tools/content/106bbfb64c995bd2ad3186786a-bpsc-image-size.webp?ezimgfmt=rs:300x300/rscb6/ngcb6/notWebP" alt="" />
-            <div className='window__btns-row'>
-              <input type="text" placeholder='Например: Джордан Беллфорд' className='window__input' />
-              <button type='button' className='window__btn'>Отправить</button>
-            </div>
+            {answers}
           </div>
       }
     </div>

@@ -1,23 +1,49 @@
 import { useSelector } from 'react-redux';
 
-import { nextQuestion } from '../store/reducers/ActionCreators';
+import { nextQuestion, setShuffledList } from '../store/reducers/ActionCreators';
 import { store } from '../store/store';
 import Question from './Question';
 
 function Quiz() {
-  const { questions, counter } = useSelector(store => store.quizReducer);
+  const { questions, counter, shuffledList } = useSelector(store => store.quizReducer);
 
   // Функции
   function answerClickHandle(isCorrect) {
     store.dispatch(nextQuestion(isCorrect));
   }
 
-  function createAnswers(answersObj, answersKeys) {
-    return answersKeys.map((item, index) => {
-      return <li className="window__answer window__answer--grid" key={index}
-        onClick={() => answerClickHandle(answersObj[item])}
-        data-correct={answersObj[item]}>{item}</li>;
-    });
+  function inputAnswerHandle(rightAnswer) {
+    console.log(rightAnswer);
+    const input = document.querySelector('#input');
+    const userAnswer = input.value;
+
+    input.value = '';
+    if (userAnswer.replace(/\s+/g, ' ').trim() === rightAnswer) answerClickHandle(1);
+    else answerClickHandle(0);
+  }
+
+  function createAnswers(answersObj, answersKeys, questionObj, questionType) {
+    if (questionType !== "guess") {
+      return answersKeys.map((item, index) => {
+        return <li className="window__answer window__answer--grid" key={index}
+          onClick={() => answerClickHandle(answersObj[item])}
+          data-correct={answersObj[item]}>{item}</li>;
+      });
+    } else {
+      return (
+        <>
+          {questionObj.photoUrl !== null ? <div className='window__img-wrapper'><img className='window__img' src={questionObj.photoUrl} alt={questionObj.descr} /></div> : null}
+          {questionObj.descr !== null ? <p className='window__descr'>{questionObj.descr}</p> : null}
+          <div className='window__btns-row'>
+            <input type="text" placeholder={`Например: ${questionObj.placeholder}`} data-answer={questionObj.rightAnswer} className='window__input' id='input' onKeyDown={(e) => {
+              if (e.key === 'Enter') inputAnswerHandle(questionObj.rightAnswer)
+            }}/>
+            <button type='button' onClick={(e) => inputAnswerHandle(e.target.dataset.answer)}
+              className='window__btn window__btn--in-input' data-answer={questionObj.rightAnswer}>Отправить</button>
+          </div>
+        </>
+      );
+    }
   }
 
   function shuffleList(payload) {
@@ -27,28 +53,27 @@ function Quiz() {
 
   // Формирование вопросов и ответов
   const questionsList = questions.quiz;
-  const questionsQuantity = Object.keys(questionsList).length;
-  const questionsKeys = Object.keys(questionsList);
+  const questionsQuantity = 15;
+  let questionsKeys;
+
+  if (shuffledList === null) {
+    questionsKeys = shuffleList(Object.keys(questionsList)).slice(0, 15);
+    store.dispatch(setShuffledList(questionsKeys));
+  } else {
+    questionsKeys = shuffledList;
+  }
 
   const currentQuestion = questionsKeys[counter];
   const questionObj = questionsList[currentQuestion];
   const questionType = questionObj.type;
 
-  let answersObj, allAnswers, answersKeys, rightAnswer;
+  // let answersObj, allAnswers, answersKeys;
+  const answersObj = questionObj.answers || {};
+  const allAnswers = Object.keys(answersObj) || {};
+  const answersKeys = questionType === "default" ? shuffleList(allAnswers) : allAnswers;
 
-  if (questionType !== "guess") {
-    answersObj = questionObj.answers;
-    allAnswers = Object.keys(answersObj);
-    answersKeys = questionType === "default" ? shuffleList(allAnswers) : allAnswers;
-
-    return (<Question answers={createAnswers(answersObj, answersKeys)} isQuizQuestion={true} questionsQuantity={questionsQuantity}
-      title={questionsKeys[counter]} counter={counter} />);
-  } else {
-    rightAnswer = questionObj.rightAnswer;
-
-    return (<Question isGuessQuestion={true} isQuizQuestion={true} questionsQuantity={questionsQuantity}
-      title={questionsKeys[counter]} counter={counter} />);
-  }
+  return (<Question isGuessQuestion={questionType === 'guess'} answers={createAnswers(answersObj, answersKeys, questionObj, questionType)} isQuizQuestion={true} questionsQuantity={questionsQuantity}
+    title={questionsKeys[counter]} counter={counter} />);
 };
 
 export default Quiz;

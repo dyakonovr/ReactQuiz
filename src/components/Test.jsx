@@ -6,10 +6,11 @@ import { store } from '../store/store';
 import Explanation from './Explanation';
 import Question from './Question';
 import Switch from './UI/Switch';
+import { setShuffledList } from '../store/reducers/ActionCreators';
 
 const Test = () => {
   const { questions, counter, currentDifficulty,
-    questionsQuantityByExplanation, explanationIsNeeded,
+    questionsQuantityByExplanation, explanationIsNeeded, shuffledList,
     explanationIsShowed } = useSelector(state => state.quizReducer);
 
   useEffect(() => {
@@ -30,7 +31,6 @@ const Test = () => {
   }
 
   function createAnswers(answersObj, answersKeys) {
-    console.log(answersObj, answersKeys);
     return answersKeys.map((item, index) => {
       return <li className="window__answer" key={index} onClick={() => answerClickHandle(answersObj[item])}
         data-correct={answersObj[item]}>{item}</li>;
@@ -49,7 +49,15 @@ const Test = () => {
 
   if (currentDifficulty) {
     const currentQuestionsList = questions.test[currentDifficulty];
-    const questionsKeys = Object.keys(currentQuestionsList);
+    let questionsKeys;
+
+    if (shuffledList === null) {
+      questionsKeys = shuffleList(Object.keys(currentQuestionsList));
+      store.dispatch(setShuffledList(questionsKeys));
+    } else {
+      questionsKeys = shuffledList;
+    }
+
     const currentQuestion = questionsKeys[counter];
     const answersObj = currentQuestionsList[currentQuestion].answers;
     const allAnswers = Object.keys(answersObj);
@@ -76,9 +84,9 @@ const Test = () => {
           <span className='window__link' onClick={() => store.dispatch(setGameType(null))}>Вернуться в главное меню</span>
         </div>
         <ul className="window__list" onClick={(e) => handleDifficultyClick(e.target.dataset.value)}>
-          <li className="window__answer" data-value="easy">Легкая <span className='window__small'>{questionsQuantityByExplanation.easy} вопросов</span></li>
-          <li className="window__answer" data-value="medium">Средняя <span className='window__small'>{questionsQuantityByExplanation.medium} вопросов</span></li>
-          <li className="window__answer" data-value="hard">Сложная <span className='window__small'>{questionsQuantityByExplanation.hard} вопросов</span></li>
+          <li className="window__answer" data-value="easy">Легкая <span className='window__small'>{questionsQuantityByExplanation.test.easy} вопросов</span></li>
+          <li className="window__answer" data-value="medium">Средняя <span className='window__small'>{questionsQuantityByExplanation.test.medium} вопросов</span></li>
+          <li className="window__answer" data-value="hard">Сложная <span className='window__small'>{questionsQuantityByExplanation.test.hard} вопросов</span></li>
         </ul>
         <Switch />
       </div>

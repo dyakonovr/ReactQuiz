@@ -72,9 +72,35 @@ const initialState = {
     },
 
     quiz: {
-      "Какой-то вопрос?": { answers: { "Первый": 1, "Второй": 0, "Третий": 0, "Четвертый": 0 }, type: "default"},
-      "Верю/не верю": { answers: { "Верю": 1, "Не верю": 0 }, type: "believe"},
-      "Кто на фото?": { rightAnswer: "что-то", type: "guess"},
+      "Кто считает миллионы тысячами?": { answers: { "Миллиардер": 1, "Миллионер": 0, "Банкир": 0, "Швейцар": 0 }, type: "default" },
+      "Ребус": { rightAnswer: "платеж", photoUrl: "https://i.ibb.co/cLBq9Pc/rebus-1.jpg", placeholder: "экономика", type: "guess" },
+      "Какую страну называют банкиром всего мира?": { answers: { "Швейцария": 1, "Швеция": 0, "Италия": 0, "США": 0 }, type: "default" },
+      "Монеты не всегда были круглыми. Раньше они были самых разных форм, но мошенники срезали края, чтобы сделать новые монеты. Чтобы победить это преступное явление, делать монеты сразу круглыми предложил философ и физик Готфрид Лейбниц": { answers: { "Верю": 0, "Не верю": 1 }, photoUrl: "https://fintolk.pro/wp-content/uploads/2020/08/monete_romane_6.jpg?x80894", type: "believe" },
+      "Где находится море Кризисов?": { answers: { "На Луне": 1, "В Италии": 0, "В России": 0, "На Сатурне": 0 }, type: "default" },
+      "Назовите мероприятие, где цену набивают молотком": { answers: { "Аукцион": 1, "Ограбление": 0, "Собрание": 0, "Совещание": 0 }, type: "default" },
+      "Отгадайте, кто изображен на фотографии?": { rightAnswer: "Стив Джобс", descr: "Пионер эры информационных технологий", photoUrl: "https://i.ibb.co/BgKjR5y/image.jpg", placeholder: "Петр Петров", type: "guess" },
+      "Виды какого города можно увидеть на российской купюре достоинством в 5000 рублей?": { answers: { "Хабаровск": 1, "Архангельск": 0, "Москва": 0, "Саратов": 0 }, type: "default" },
+      "Угадайте человека по описанию": { rightAnswer: "Павел Дуров", descr: "Предприниматель и программист, долларовый миллиардер", photoUrl: "https://i.ibb.co/vVmMnsm/image.jpg", placeholder: "Петр Петров", type: "guess" },
+      "Самая тяжелая монета была отчеканена в 2011 году в австрийском городе Перта. Ее диаметр составил 80 сантиметров, толщина — 12 сантиметров, а масса — 1012 килограммов. Это мировой рекорд": { answers: { "Верю": 1, "Не верю": 0 }, type: "believe" },
+      "Все люди, изображенные на долларах США, были президентами этой страны": { answers: { "Верю": 0, "Не верю": 1 }, photoUrl: "https://fintolk.pro/wp-content/uploads/2020/08/3de3c62a976b35b91e45fe9509249eb75661e9c8.jpg?x80894", type: "believe" },
+      "Какому иностранному государству принадлежит следующие название денег: крона": { answers: { "Швеция": 1, "Турция": 0, "Франция": 0, "Германия": 0 }, type: "default" },
+      "Дайте ответ на ребус": { rightAnswer: "стоимость", photoUrl: "https://i.ibb.co/d51MjmG/rebus-6.jpg", placeholder: "экономика", type: "guess" },
+      "Какому иностранному государству принадлежит следующие название денег: лира": { answers: { "Турция": 1, "Италия": 0, "Испания": 0, "Финляндия": 0 }, type: "default" },
+      "Вам дана фотография человека. Кто это?": { rightAnswer: "Карл Маркс", descr: "Немецкий философ, социолог, экономист, писатель, поэт, политический журналист", photoUrl: "https://i.ibb.co/yNdbsnq/image.jpg", placeholder: "Петр Петров", type: "guess" },
+      "Самая распространенная купюра в мире - 100 американских долларов": { answers: { "Верю": 1, "Не верю": 0 }, photoUrl: "https://fintolk.pro/wp-content/uploads/2020/08/depositphotos_63299423_l-2015.jpg?x80894", type: "believe" },
+      "Колумбийский наркобарон Пабло Эскобар однажды вынужден был поддерживать костёр деньгами, скрываясь от преследователей в горах. Чтобы обогреть свою семью, он сжёг два миллиона долларов": { answers: { "Верю": 1, "Не верю": 0 }, type: "believe" },
+      "Виды какого города можно увидеть на российской купюре достоинством в 500 рублей?": { answers: { "Архангельск": 1, "Хабаровск": 0, "Москва": 0, "Саратов": 0 }, type: "default" },
+      "Кто на фото?": { rightAnswer: "Генри Форд", descr: "Человек, поставивший мир на колеса", photoUrl: "https://i.ibb.co/JkDKw1m/Genri-Ford.png", placeholder: "Петр Петров", type: "guess" },
+      "Что загадано в ребусе?": { rightAnswer: "экспорт", photoUrl: "https://i.ibb.co/QDwD0c6/rebus-4.jpg", placeholder: "экономика", type: "guess" },
+      "От крупнейшей в истории финансовой аферы пострадало 3 млн. человек, а решением суда было назначено наказание – 150 лет лишения свободы": { answers: { "Верю": 1, "Не верю": 0 }, type: "believe" },
+      "Разгадайте ребус": { rightAnswer: "кредит", photoUrl: "https://i.ibb.co/9pM41Bx/rebus-2.jpg", placeholder: "экономика", type: "guess" },
+      "Один из очень «талантливых» мошенников Европы в 20-х годах прошлого столетия попытался продать бизнесменам Эйфелеву башню как металлолом… дважды, и один раз весьма удачно! ": { answers: { "Верю": 1, "Не верю": 0 }, type: "believe" },
+      "Отгадайте, кто на фото?": { rightAnswer: "Билл Гейтс", descr: "Предприниматель и филантроп, который не раз признавался самым богатым человеком планеты", photoUrl: "https://i.ibb.co/3dZbRh5/Bill-Gats.png", placeholder: "Петр Петров", type: "guess" },
+      "Назовите функцию, показывающую, сколько единиц товара покупатели готовы купить по данной цене": { answers: { "Функция спроса": 1, "Функция предложения": 0, "Функция ликвидности": 0, "Функция денег": 0 }, type: "default" },
+      "Ребус на барабане!": { rightAnswer: "пенсия", photoUrl: "https://i.ibb.co/F6NXqzd/rebus-3.jpg", placeholder: "экономика", type: "guess" },
+      "Кто изображен на фотографии?": { rightAnswer: "Илон Маск", descr: "Предприниматель, миллиардер, изобретатель и инвестор, который поставил цель организовать «космический туризм»", photoUrl: "https://i.ibb.co/qjfVgrR/image.jpg", placeholder: "Петр Петров", type: "guess" },
+      "Цена на электрический чайник была повышена на 15% и составила 3450 рублей. Сколько рублей стоил чайник до повышения цены?": { answers: { "3000": 1, "3015": 0, "4500": 0, "2950": 0 }, type: "default" },
+      "Разшифруйте ребус": { rightAnswer: "товар", photoUrl: "https://i.ibb.co/h2zCgKq/rebus-5.jpg", placeholder: "экономика", type: "guess" },
     }
   },
   questionsQuantityByExplanation: {
@@ -83,7 +109,7 @@ const initialState = {
       "medium": 20,
       "hard": 20
     },
-    quiz: 20
+    quiz: 15
   },
   counter: 0,
   rightAnswers: 0,
@@ -96,7 +122,8 @@ const initialState = {
   userscores: { "easy": 0, "medium": 0, "hard": 0 },
   userID: null,
   userToken: null,
-  gameType: null
+  gameType: null,
+  shuffledList: null,
 }
 
 export const quizSlice = createSlice({
@@ -104,17 +131,19 @@ export const quizSlice = createSlice({
   initialState,
   reducers: {
     nextQuestion: (state, { payload }) => {
-      const currQuestions = state.gameType === "test" ? state.questions.test[state.currentDifficulty] : state.questions.quiz;
-      if (state.counter + 1 === Object.keys(currQuestions).length) {
+      const currQuestionsLen = state.gameType === "test" ? Object.keys(state.questions.test[state.currentDifficulty]).length : state.questionsQuantityByExplanation.quiz;
+      if (state.counter + 1 === currQuestionsLen) {
         state.quizIsDone = true;
       }
       
 
-      if (payload === 1) {
-        state.rightAnswers += 1;
-      }
+      if (payload === 1) state.rightAnswers += 1;
 
       state.counter += 1;
+    },
+
+    setShuffledList: (state, {payload}) => {
+      state.shuffledList = payload;
     },
 
     finishQuiz: (state) => {
@@ -131,6 +160,7 @@ export const quizSlice = createSlice({
       state.rightAnswers = 0;
       state.currentDifficulty = null;
       state.explanationIsNeeded = false;
+      state.shuffledList = null;
     },
 
     setDifficulty: (state, { payload }) => {

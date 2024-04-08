@@ -35,6 +35,10 @@ export const setGameType = (type) => async () => {
   store.dispatch(quizSlice.actions.setGameType(type));
 }
 
+export const setShuffledList = (list) => async () => {
+  store.dispatch(quizSlice.actions.setShuffledList(list));
+}
+
 export const setUserData = (username) => async () => {
   const responseWithID = await axios.get(`/api/userdata/${username}`);
   const id = responseWithID.data.id;
