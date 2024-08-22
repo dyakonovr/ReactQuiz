@@ -13,7 +13,6 @@ function Quiz() {
   }
 
   function inputAnswerHandle(rightAnswer) {
-    console.log(rightAnswer);
     const input = document.querySelector('#input');
     const userAnswer = input.value;
 
@@ -53,6 +52,7 @@ function Quiz() {
 
   // Формирование вопросов и ответов
   const questionsList = questions.quiz;
+  console.log(questionsList);
   const questionsQuantity = 15;
   let questionsKeys;
 
